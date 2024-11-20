@@ -82,28 +82,32 @@ public class BattlePanel extends JPanel {
 
     private static void playMusic(String filepath) {
         try {
-            File musicPath = new File(filepath);
-            if (musicPath.exists()) {
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                clip = AudioSystem.getClip();
-                clip.open(audioInput);
-                clip.addLineListener(new LineListener() {
-                    @Override
-                    public void update(LineEvent event) {
-                        if (event.getType() == LineEvent.Type.STOP) {
-                            clip.setFramePosition(0); // Restart the music
-                            clip.start();
+            if (clip == null || !clip.isRunning()) {
+                File musicPath = new File(filepath);
+                if (musicPath.exists()) {
+                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+                    clip = AudioSystem.getClip();
+                    clip.open(audioInput);
+                    clip.addLineListener(new LineListener() {
+                        @Override
+                        public void update(LineEvent event) {
+                            if (event.getType() == LineEvent.Type.STOP) {
+                                clip.setFramePosition(0);
+                                clip.start();
+                            }
                         }
-                    }
-                });
-                clip.start();
-            } else {
-                System.out.println("Music file not found");
+                    });
+                    clip.start();
+                } else {
+                    System.out.println("Music file not found");
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+        
+    
 
     private static void stopMusic() {
         if (clip != null && clip.isRunning()) {

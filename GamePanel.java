@@ -85,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
             paused = true;
             player.stopMovement();; // Ensure the player stops moving
             game.showBattlePanel();
+            tileKey = 0;
             
         
         }
