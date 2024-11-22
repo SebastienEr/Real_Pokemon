@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List; // Add this import
+import java.util.stream.Collectors; // Add this import
 
 public class BattlePanel extends JPanel {
     private Game game;
@@ -91,8 +93,8 @@ public class BattlePanel extends JPanel {
                     @Override
                     public void update(LineEvent event) {
                         if (event.getType() == LineEvent.Type.STOP) {
-                            clip.setFramePosition(0); // Restart the music
-                            clip.start();
+                            clip.close();
+                            playMusic(filepath);
                         }
                     }
                 });
@@ -217,11 +219,26 @@ public class BattlePanel extends JPanel {
         usePotionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (isPlayerTurn && playerPokemon.isAlive()) {
-                    playerPokemon.heal(20);
-                    playerHpBar.setValue(playerPokemon.getHp());
-                    playerHpBar.setString(playerPokemon.getHp() + "/" + playerPokemon.getMaxHp());
-                    isPlayerTurn = false;
-                    updateTurn();
+                    Player player = game.getPlayer(); // Use getPlayer() method
+                    List<Player.Item> inventory = player.getInventory(); // Use Player.Item
+                    Player.Item potion = inventory.stream()
+                        .filter(item -> item.getName().equals("Potion"))
+                        .findFirst()
+                        .orElse(null);
+
+                    if (potion != null && potion.getQuantity() > 0) {
+                        playerPokemon.heal(20);
+                        playerHpBar.setValue(playerPokemon.getHp());
+                        playerHpBar.setString(playerPokemon.getHp() + "/" + playerPokemon.getMaxHp());
+                        potion.decreaseQuantity();
+                        if (potion.getQuantity() == 0) {
+                            inventory.remove(potion);
+                        }
+                        isPlayerTurn = false;
+                        updateTurn();
+                    } else {
+                        JOptionPane.showMessageDialog(BattlePanel.this, "No potions left!");
+                    }
                 }
             }
         });

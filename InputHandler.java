@@ -62,6 +62,9 @@ public class InputHandler implements KeyListener {
             case KeyEvent.VK_SHIFT:
                 sprintPressed = true;
                 break;
+            case KeyEvent.VK_I:
+                player.toggleInventory();
+                break;
             default:
                 break;
         }

@@ -7,7 +7,7 @@ public class PokemonList {
     public static final Pokemon BULBIZARRE = new TypeHerbe("Bulbizarre", 120, 15, new String[]{"Vine Whip:30", "Tackle:10"});
     public static final Pokemon CARAPUCE = new TypeEau("Carapuce", 110, 20, new String[]{"Water Gun:30", "Tackle:10"});
 
-    private static final Pokemon[] POKEMONS = {SALAMECHE, BULBIZARRE, CARAPUCE};
+    private static final Pokemon[] POKEMONS = { BULBIZARRE, CARAPUCE};
 
     public static Pokemon getRandomPokemon() {
         Random random = new Random();

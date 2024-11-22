@@ -79,8 +79,8 @@ public class Pokemon extends Entite {
     }
     
     private void increaseStats() {
-        maxHp += 10;
-        attack += 5;
+        maxHp += 1000;
+        attack += 100;
         hp = maxHp;
     }
 }

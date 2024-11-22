@@ -6,6 +6,7 @@ public class Game extends JFrame {
     private JPanel mainPanel;
     private GamePanel gamePanel;
     private BattlePanel battlePanel;
+    private Player player;
 
     public Game() {
         setTitle("Jeu Pokémon");
@@ -37,6 +38,10 @@ public class Game extends JFrame {
         gamePanel.resumeGame();
     }
     
+    public Player getPlayer() {
+        return player;
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Game::new);
     }
