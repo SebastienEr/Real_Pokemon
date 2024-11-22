@@ -30,11 +30,9 @@ public abstract class Entity {
             return false;
         }
 
-        // Vérifie si la valeur est 20 pour déterminer la collision
         return collisionData[tileY][tileX] != 20;
     }
 
-    // Changement de la visibilité à public
     public void moveUp(double deltaTime, MapManager mapManager) {
         double nextY = y - moveSpeed * deltaTime;
         if (canMoveTo(x, nextY, mapManager)) {
@@ -78,7 +76,7 @@ public abstract class Entity {
 
     public void stopMovement() {
         moveSpeed = 0; 
-        direction = -1; // Reset the direction to indicate no movement
+        direction = 0; // Reset the direction to indicate no movement
     }
 
     public void resetMovement() {
@@ -87,7 +85,7 @@ public abstract class Entity {
     
     public void resetAll() {
         moveSpeed = 0;
-        direction = -1;
+        direction = 0;
         running = false;
         animationFrame = 0;
         animationCounter = 0;

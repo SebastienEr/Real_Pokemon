@@ -1,8 +1,8 @@
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
+// import javax.sound.sampled.LineEvent;
+// import javax.sound.sampled.LineListener;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -80,40 +80,31 @@ public class BattlePanel extends JPanel {
 
     private static Clip clip;
 
-    private static void playMusic(String filepath) {
-        try {
-            if (clip == null || !clip.isRunning()) {
-                File musicPath = new File(filepath);
-                if (musicPath.exists()) {
-                    AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                    clip = AudioSystem.getClip();
-                    clip.open(audioInput);
-                    clip.addLineListener(new LineListener() {
-                        @Override
-                        public void update(LineEvent event) {
-                            if (event.getType() == LineEvent.Type.STOP) {
-                                clip.setFramePosition(0);
-                                clip.start();
-                            }
-                        }
-                    });
-                    clip.start();
-                } else {
-                    System.out.println("Music file not found");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-        
-    
 
-    private static void stopMusic() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
+private static void playMusic(String filepath) {
+    try {
+        File musicPath = new File(filepath);
+        if (musicPath.exists()) {
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
+            clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        } else {
+            System.out.println("Music file not found");
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
+private static void stopMusic() {
+    if (clip != null && clip.isRunning()) {
+        clip.stop();
+        clip.close();
+    }
+}
+
+   
 
     private JPanel createMainPanel() {
         JPanel panel = new JPanel(new GridBagLayout()) {
@@ -233,8 +224,7 @@ public class BattlePanel extends JPanel {
     }
 
     private void updateXpLabels() {
-        stopMusic();
-            clip.stop();    
+            
         playerXpLabel = new JLabel("XP: " + playerPokemon.getXp() + " | Level: " + playerPokemon.getLevel());
         opponentLevelLabel = new JLabel("Level: " + currentOpponent.getLevel());
     }
@@ -242,19 +232,20 @@ public class BattlePanel extends JPanel {
     private void updateTurn() {
         if (!playerPokemon.isAlive()) {
             game.showGamePanel();
+            game.resumeGame();
             stopMusic();
             clip.stop();
 
         } else if (!currentOpponent.isAlive()) {
             playerPokemon.gainXp(2500);
             game.showGamePanel();
+            game.resumeGame();
             stopMusic();
             clip.stop();    
 
             
         } else {
-            stopMusic();
-            clip.stop();    
+               
             turnLabel.setFont(new Font("Pokemon Classic", Font.BOLD, 14));
             displayTurnText("", new ActionListener() {
                 @Override

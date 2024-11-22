@@ -40,6 +40,7 @@ public class MapManager {
         tileImages.put(13, new ImageIcon("src/Meuble1.png").getImage());
         tileImages.put(14, new ImageIcon("src/mur.png").getImage());
         tileImages.put(15, new ImageIcon("src/Treee.png").getImage());
+        // tileImages.put(16, new ImageIcon("src/pnj.png").getImage()); // Retiré car le PNJ est géré séparément
     }
 
     private void loadMaps() {

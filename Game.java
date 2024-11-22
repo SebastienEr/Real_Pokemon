@@ -8,6 +8,8 @@ public class Game extends JFrame {
     private BattlePanel battlePanel;
 
     public Game() {
+        gamePanel = new GamePanel(this);
+
         setTitle("Jeu Pokémon");
         setSize(896, 768);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +38,10 @@ public class Game extends JFrame {
         cardLayout.show(mainPanel, "GamePanel");
         gamePanel.resumeGame();
     }
+    public void resumeGame() {
+        gamePanel.resumeGame();
+    }
+
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Game::new);

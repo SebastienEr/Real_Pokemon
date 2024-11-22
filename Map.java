@@ -37,7 +37,10 @@ public class Map {
                     drawTile(g, mapData[y][x], screenX, screenY);
 
                     if (overlayData != null && y < overlayData.length && x < overlayData[0].length) {
-                        drawOverlayTile(g, x, y, screenX, screenY);
+                        int overlayTileID = overlayData[y][x];
+                        if (overlayTileID != 16) { // Ne pas dessiner le PNJ en tant que tuile
+                            drawOverlayTile(g, x, y, screenX, screenY);
+                        }
                     }
                 }
             }
@@ -109,4 +112,5 @@ public class Map {
     public int[][] getCollisionData() {
         return collisionData;
     }
+    
 }

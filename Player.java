@@ -9,14 +9,12 @@ public class Player extends Entity implements Drawable, Updatable {
         super(startX, startY, tileSize);
         this.spriteManager = spriteManager;
 
-        // Calcul de la vitesse de marche en pixels par seconde
         this.setMoveSpeed(200.0);
-        this.setDirection(2); // Direction par défaut (bas)
+        this.setDirection(2); 
     }
 
     @Override
     public void update(double deltaTime) {
-        // Accumuler le temps écoulé pour afficher les coordonnées toutes les 2 secondes
         elapsedTime += deltaTime;
         if (elapsedTime >= 2.0) {
             System.out.println("Player Coordinates: X = " + getTileX() + ", Y = " + getTileY());
@@ -26,6 +24,8 @@ public class Player extends Entity implements Drawable, Updatable {
             System.out.println("Offset: X = " + offsetX + ", Y = " + offsetY);
         }
     }
+    
+
 
     @Override
     public void draw(Graphics2D g, double cameraX, double cameraY) {
@@ -35,8 +35,9 @@ public class Player extends Entity implements Drawable, Updatable {
         int playerWidth = getTileSize();
         int playerHeight = getTileSize();
 
-        BufferedImage sprite = spriteManager.getSprite(isRunning(), getDirection(), getAnimationFrame());
-
+        Direction dir = Direction.fromInt(getDirection());
+        BufferedImage sprite = spriteManager.getSprite(isRunning(), dir, getAnimationFrame());
+        
         g.drawImage(sprite, screenX, screenY, playerWidth, playerHeight, null);
     }
 }

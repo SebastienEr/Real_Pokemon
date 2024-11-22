@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class InputHandler implements KeyListener {
-    private boolean upPressed, downPressed, leftPressed, rightPressed, sprintPressed;
+    private boolean upPressed, downPressed, leftPressed, rightPressed, sprintPressed, ePressed;
     private Player player;
     private MapManager mapManager;
 
@@ -34,14 +34,22 @@ public class InputHandler implements KeyListener {
         if (moving) {
             if (sprintPressed) {
                 player.setRunning(true);
-                player.setMoveSpeed(300.0); // Vitesse de sprint en pixels par seconde
+                player.setMoveSpeed(300.0);
             } else {
                 player.setRunning(false);
-                player.setMoveSpeed(200.0); // Vitesse de marche en pixels par seconde
+                player.setMoveSpeed(200.0);
             }
         } else {
             player.setRunning(false);
         }
+    }
+
+    public boolean isEPressed() {
+        return ePressed;
+    }
+
+    public void resetEPressed() {
+        ePressed = false;
     }
 
     @Override
@@ -61,6 +69,9 @@ public class InputHandler implements KeyListener {
                 break;
             case KeyEvent.VK_SHIFT:
                 sprintPressed = true;
+                break;
+            case KeyEvent.VK_E:
+                ePressed = true;
                 break;
             default:
                 break;
@@ -85,9 +96,21 @@ public class InputHandler implements KeyListener {
             case KeyEvent.VK_SHIFT:
                 sprintPressed = false;
                 break;
+            case KeyEvent.VK_E:
+                ePressed = false;
+                break;
             default:
                 break;
         }
+    }
+
+    public void resetKeyStates() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+        sprintPressed = false;
+        ePressed = false;
     }
 
     @Override
